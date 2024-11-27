@@ -14,13 +14,22 @@ input[type=number] {
     appearance: textfield;
 }
 
+#addplayer {
+    font-size: 20px;
+    color: #fff;
+    background: #0f7;
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+}
+
 body {
     color: #fff;
     background: #000;
 }
 
 .column {
-    margin-left: 10px;
     margin-right: 10px;
     display: flex;
     flex-flow: column nowrap;
@@ -39,6 +48,10 @@ body {
     margin-left: 4px;
 }
 
+header {
+    margin-bottom: 100px;
+}
+
 .header {
     text-align: center;
 }
@@ -55,7 +68,28 @@ body {
     flex-flow: row nowrap;
 }
 
+.player-info {
+    margin-bottom: 5px;
+}
+
 #players {
     display: flex;
     flex-flow: column nowrap;
+}
+
+.remove-button {
+    font-weight: bold;
+    color: #fff;
+    background: #f00;
+    border: 0;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 6px;
+}
+
+#remove-column {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }

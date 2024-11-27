@@ -10,10 +10,6 @@ const playerInfo = document.createElement('div');
 playerInfo.id = 'player-info';
 
 //Player columns
-const removeColumn = document.createElement('div');
-removeColumn.id = 'remove-column';
-removeColumn.classList.add('column');
-
 const playersColumn = document.createElement('div');
 playersColumn.id = 'players-column';
 playersColumn.classList.add('column');
@@ -29,6 +25,10 @@ handicapColumn.classList.add('column');
 const gamesColumn = document.createElement('div');
 gamesColumn.id = 'games-column';
 gamesColumn.classList.add('column');
+
+const removeColumn = document.createElement('div');
+removeColumn.id = 'remove-column';
+removeColumn.classList.add('column');
 
 //Player headers
 const playerNames = document.createElement('div');
@@ -51,30 +51,24 @@ playerGames.id = 'games-header';
 playerGames.classList.add('header');
 playerGames.textContent = 'Games';
 
+const removeHeader = document.createElement('div');
+removeHeader.id = 'remove-header';
+removeHeader.classList.add('header');
+removeHeader.textContent = 'x';
+removeHeader.style.color = '#000';
+
 playersColumn.appendChild(playerNames);
 entriesColumn.appendChild(playerEntries);
 handicapColumn.appendChild(playerHandicaps);
 gamesColumn.appendChild(playerGames);
-playerInfo.append(playersColumn, entriesColumn, handicapColumn, gamesColumn);
+removeColumn.appendChild(removeHeader);
+playerInfo.append(playersColumn, entriesColumn, handicapColumn, gamesColumn, removeColumn);
 
 let playerCount = 0;
 
 //Add Player
 function newPlayer() {
     playerCount++;
-
-    const player = document.createElement('div');
-    player.id = 'player-' + playerCount;
-    player.style.display = 'flex';
-    player.style.flexFlow = 'row nowrap';
-    player.style.gap = '10px';
-
-    const xBtn = document.createElement('div');
-    xBtn.textContent = 'X';
-    xBtn.classList.add('remove-button');
-    xBtn.addEventListener('click', function() {
-        document.getElementById(player.id).remove();
-    });
 
     const name = document.createElement('input');
     name.setAttribute('type', 'text');
@@ -91,6 +85,7 @@ function newPlayer() {
     handicap.style.width = '50px';
 
     const playersGamesContainer = document.createElement('div');
+    playersGamesContainer.id = 'container-' + playerCount;
     playersGamesContainer.classList.add('games-container');
 
     const gameOne = document.createElement('input');
@@ -111,13 +106,24 @@ function newPlayer() {
     gameThree.classList.add('game');
     gameThree.style.width = '50px';
 
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('remove-button');
+    removeBtn.style.width = '50px';
+    removeBtn.textContent = 'x';
+    removeBtn.addEventListener('click', function() {
+        document.getElementById(name.id).remove();
+        document.getElementById(entries.id).remove();
+        document.getElementById(handicap.id).remove();
+        document.getElementById(playersGamesContainer.id).remove();
+        this.remove();
+    });
+
     playersGamesContainer.append(gameOne, gameTwo, gameThree);
-    removeColumn.append(xBtn);
     playersColumn.append(name);
     entriesColumn.append(entries);
     handicapColumn.append(handicap);
     gamesColumn.appendChild(playersGamesContainer);
-    console.log(playerCount);
+    removeColumn.appendChild(removeBtn);
 }
 
 addBtn.addEventListener('click', newPlayer);

@@ -1,4 +1,6 @@
 const players = document.querySelector('#players');
+const add = document.querySelector('#add');
+const generate = document.querySelector('#generate');
 
 //Add Player button
 const addBtn = document.createElement('button');
@@ -65,28 +67,37 @@ removeColumn.appendChild(removeHeader);
 playerInfo.append(playersColumn, entriesColumn, handicapColumn, gamesColumn, removeColumn);
 
 let playerCount = 0;
+let bowlerIds = [];
 
 //Add Player
 function newPlayer() {
+    const bowlerId = playerCount;
     playerCount++;
+
+    bowlerIds.push(playerCount);
+    console.log(bowlerIds);
 
     const name = document.createElement('input');
     name.setAttribute('type', 'text');
     name.id = 'name-' + playerCount;
+    name.classList.add('player-info');
 
     const entries = document.createElement('input');
     entries.setAttribute('type', 'number');
     entries.id = 'entries' + playerCount;
+    entries.classList.add('player-info');
     entries.style.width = '50px';
 
     const handicap = document.createElement('input');
     handicap.setAttribute('type', 'number');
     handicap.id = 'handicap' + playerCount;
     handicap.style.width = '50px';
+    handicap.classList.add('player-info');
 
     const playersGamesContainer = document.createElement('div');
     playersGamesContainer.id = 'container-' + playerCount;
     playersGamesContainer.classList.add('games-container');
+    playersGamesContainer.classList.add('player-info');
 
     const gameOne = document.createElement('input');
     gameOne.setAttribute('type', 'number');
@@ -108,9 +119,9 @@ function newPlayer() {
 
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('remove-button');
-    removeBtn.style.width = '50px';
     removeBtn.textContent = 'x';
     removeBtn.addEventListener('click', function() {
+        bowlerIds.splice(bowlerIds.indexOf(bowlerId) + 1, 1);
         document.getElementById(name.id).remove();
         document.getElementById(entries.id).remove();
         document.getElementById(handicap.id).remove();
@@ -128,5 +139,23 @@ function newPlayer() {
 
 addBtn.addEventListener('click', newPlayer);
 
-players.append(addBtn, playerInfo);
+//Creating the player object
+function playerObject(i) {
+    const bowler = new Object();
+    bowler.idNumber = i;
+    bowler.idNumber.name = document.getElementById(`name-` + i).value;
+    console.log(bowler);
+}
+
+//Generate button to process player information
+const generateBtn = document.createElement('button');
+generateBtn.id = 'generate-button';
+generateBtn.textContent = 'Generate';
+generateBtn.addEventListener('click', function() {
+    bowlerIds.forEach(playerObject);
+});
+
+add.appendChild(addBtn);
+generate.appendChild(generateBtn);
+players.appendChild(playerInfo);
 newPlayer();

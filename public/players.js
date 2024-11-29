@@ -71,26 +71,25 @@ let bowlerIds = [];
 
 //Add Player
 function newPlayer() {
-    const bowlerId = playerCount;
     playerCount++;
-
+    const bowlerId = playerCount;
     bowlerIds.push(playerCount);
-    console.log(bowlerIds);
 
     const name = document.createElement('input');
     name.setAttribute('type', 'text');
     name.id = 'name-' + playerCount;
     name.classList.add('player-info');
+    name.setAttribute('placeholder', 'Enter Bowler Name');
 
     const entries = document.createElement('input');
     entries.setAttribute('type', 'number');
-    entries.id = 'entries' + playerCount;
+    entries.id = 'entries-' + playerCount;
     entries.classList.add('player-info');
     entries.style.width = '50px';
 
     const handicap = document.createElement('input');
     handicap.setAttribute('type', 'number');
-    handicap.id = 'handicap' + playerCount;
+    handicap.id = 'handicap-' + playerCount;
     handicap.style.width = '50px';
     handicap.classList.add('player-info');
 
@@ -101,33 +100,37 @@ function newPlayer() {
 
     const gameOne = document.createElement('input');
     gameOne.setAttribute('type', 'number');
-    gameOne.id = 'gameone' + playerCount;
+    gameOne.id = 'gameone-' + playerCount;
     gameOne.classList.add('game');
     gameOne.style.width = '50px';
 
     const gameTwo = document.createElement('input');
     gameTwo.setAttribute('type', 'number');
-    gameTwo.id = 'gametwo' + playerCount;
+    gameTwo.id = 'gametwo-' + playerCount;
     gameTwo.classList.add('game');
     gameTwo.style.width = '50px';
 
     const gameThree = document.createElement('input');
     gameThree.setAttribute('type', 'number');
-    gameThree.id = 'gamethree' + playerCount;
+    gameThree.id = 'gamethree-' + playerCount;
     gameThree.classList.add('game');
     gameThree.style.width = '50px';
 
     const removeBtn = document.createElement('button');
+    removeBtn.id = 'remove-' + playerCount;
     removeBtn.classList.add('remove-button');
     removeBtn.textContent = 'x';
     removeBtn.addEventListener('click', function() {
-        bowlerIds.splice(bowlerIds.indexOf(bowlerId) + 1, 1);
+        const arrayIndex = bowlerIds.indexOf(bowlerId);
+        bowlerIds.splice(arrayIndex, 1);
         document.getElementById(name.id).remove();
         document.getElementById(entries.id).remove();
         document.getElementById(handicap.id).remove();
         document.getElementById(playersGamesContainer.id).remove();
         this.remove();
     });
+
+    console.log(bowlerIds);
 
     playersGamesContainer.append(gameOne, gameTwo, gameThree);
     playersColumn.append(name);
@@ -139,12 +142,29 @@ function newPlayer() {
 
 addBtn.addEventListener('click', newPlayer);
 
+const bowlerInfo = {}
+
 //Creating the player object
 function playerObject(i) {
-    const bowler = new Object();
-    bowler.idNumber = i;
-    bowler.idNumber.name = document.getElementById(`name-` + i).value;
+    console.log(bowlerIds);
+    if (typeof i !== 'undefined') {
+        let bowler = new Object();
+        bowler = {
+            [i]: {
+                name: document.querySelector('#name-' + [i]).value,
+                entries: document.querySelector('#entries-' + [i]).value,
+                handicap: document.querySelector('#handicap-' + [i]).value,
+                gameOne: document.querySelector('#gameone-' + [i]).value,
+                gameTwo: document.querySelector('#gametwo-' + [i]).value,
+                gameThree: document.querySelector('#gamethree-' + [i]).value
+            }
+        }
+        document.querySelector('#remove-' + [i]).addEventListener('click', function() {
+            delete bowler.i
+    });
+
     console.log(bowler);
+    }    
 }
 
 //Generate button to process player information

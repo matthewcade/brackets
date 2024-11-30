@@ -29,6 +29,13 @@ body {
     background: #000;
 }
 
+#buttons {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
+    gap: 10px;
+}
+
 .column {
     margin-right: 10px;
     display: flex;
@@ -47,6 +54,18 @@ body {
 .game {
     margin-left: 4px;
 }
+
+#generate-button {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    background: rgb(255, 255, 0);
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+}
+
 
 header {
     margin-bottom: 100px;

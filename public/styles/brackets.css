@@ -1,0 +1,49 @@
+#brackets {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.bracket-container {
+    margin-bottom: 80px;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+li {
+    list-style-type: none;
+}
+
+.line {
+    text-align: left;
+    width: 150px;
+    padding-left: 10px;
+}
+
+.round {
+    font-size: 14px;
+    padding-left: 0;
+}
+
+.round-one-line {
+    height: 35px;
+}
+
+.round-two-line {
+    height: 70px;
+    line-height: 120px;
+}
+
+.round-three-line {
+    height: 140px;
+    line-height: 260px;
+}
+
+ul {
+    height: 100%;
+    padding-left: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}

@@ -130,8 +130,6 @@ function newPlayer() {
         this.remove();
     });
 
-    console.log(bowlerIds);
-
     playersGamesContainer.append(gameOne, gameTwo, gameThree);
     playersColumn.append(name);
     entriesColumn.append(entries);

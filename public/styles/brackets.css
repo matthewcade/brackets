@@ -5,8 +5,7 @@
 }
 
 .bracket-container {
-    margin-bottom: 80px;
-    display: flex;
+    margin-bottom: 20px;
     flex-flow: row nowrap;
 }
 

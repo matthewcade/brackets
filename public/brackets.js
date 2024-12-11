@@ -1,33 +1,63 @@
 const brackets = document.querySelector('#brackets');
+import { generateBtn, playerStats } from './players.js';
 
 let numberOfBrackets = 0;
 
+//Generates a new tournament bracket
 function newBracket() {
     numberOfBrackets++;
 
+    const minimize = document.createElement('div');
+    minimize.classList.add('minimize');
+    minimize.style.color = '#fff';
+    minimize.style.background = 'rgba(255, 255, 255, 0.05)';
+    minimize.style.borderTopLeftRadius = '10px';
+    minimize.style.borderTopRightRadius = '10px';
+    minimize.style.width = '482px';
+    minimize.style.padding = '10px 15px 10px 15px';
+
+    const miniBtn = document.createElement('button');
+    miniBtn.style.background = 'none';
+    miniBtn.style.border = '0';
+    miniBtn.textContent = 'V';
+    miniBtn.style.color = '#fff';
+    miniBtn.addEventListener('click', function() {
+        if (document.getElementById('bracket-' + numberOfBrackets).style.display == 'flex') {
+            document.getElementById('bracket-' + numberOfBrackets).style.display = 'none';
+        } else {
+            document.getElementById('bracket-' + numberOfBrackets).style.display = 'flex';
+        }
+    })
+
     const bracketContainer = document.createElement('div');
+    bracketContainer.id = 'bracket-' + numberOfBrackets;
     bracketContainer.classList.add('bracket-container');
+    bracketContainer.style.background = 'rgba(255, 255, 255, 0.05)';
+    bracketContainer.style.borderBottomLeftRadius = '10px';
+    bracketContainer.style.borderBottomRightRadius = '10px';
+    bracketContainer.style.padding = '0 15px 0 15px';
+    bracketContainer.style.display = 'flex';
 
-    const roundOne = document.createElement('div');
-    roundOne.id = 'round-one-' + numberOfBrackets;
-    roundOne.classList.add('round');
+    const quarterFinals = document.createElement('div');
+    quarterFinals.id = 'round-one-' + numberOfBrackets;
+    quarterFinals.classList.add('round');
 
-    const roundTwo = document.createElement('div');
-    roundTwo.id = 'round-two-' + numberOfBrackets;
-    roundTwo.classList.add('round');
+    const semiFinals = document.createElement('div');
+    semiFinals.id = 'round-two-' + numberOfBrackets;
+    semiFinals.classList.add('round');
 
-    const roundThree = document.createElement('div');
-    roundThree.id = 'round-three-' + numberOfBrackets;
-    roundThree.classList.add('round');
+    const finals = document.createElement('div');
+    finals.id = 'round-three-' + numberOfBrackets;
+    finals.classList.add('round');
 
-    const roundOneList = document.createElement('ul');
-    roundOneList.id = 'round-one-ul-' + numberOfBrackets;
+    const quarterFinalsList = document.createElement('ul');
+    quarterFinalsList.id = 'round-one-ul-' + numberOfBrackets;
 
-    const roundTwoList = document.createElement('ul');
-    roundTwoList.id = 'round-two-ul-' + numberOfBrackets;
+    const semiFinalsList = document.createElement('ul');
+    semiFinalsList.id = 'round-two-ul-' + numberOfBrackets;
 
-    const roundThreeList = document.createElement('ul');
-    roundThreeList.id = 'round-two-ul-' + numberOfBrackets;
+    const finalsList = document.createElement('ul');
+    finalsList.id = 'round-two-ul-' + numberOfBrackets;
 
     for (let i = 0; i < 8; i++) {
         const line = document.createElement('li');
@@ -48,7 +78,7 @@ function newBracket() {
             line.style.lineHeight = '20px';
         }
 
-        roundOneList.appendChild(line);
+        quarterFinalsList.appendChild(line);
     }
 
     for (let j = 0; j < 4; j++) {
@@ -69,7 +99,7 @@ function newBracket() {
             line.style.borderBottom = '1px solid #fff';
         }
 
-        roundTwoList.appendChild(line);
+        semiFinalsList.appendChild(line);
     }
 
     for (let k = 0; k < 2; k++) {
@@ -84,12 +114,24 @@ function newBracket() {
             line.style.borderBottom = '1px solid #fff';
         }
 
-        roundThreeList.appendChild(line);
+        finalsList.appendChild(line);
     }
     
-    bracketContainer.append(roundOneList, roundTwoList, roundThreeList);
-    brackets.append(bracketContainer);
+    minimize.appendChild(miniBtn);
+    bracketContainer.append(quarterFinalsList, semiFinalsList, finalsList);
+    brackets.append(minimize, bracketContainer);
 }
 
-newBracket();
-newBracket();
+//Generates brackets based on player count
+function normalBracket() {
+    let num = playerStats.length;
+    num = num / 8;
+    
+    if (num >= 1) {
+        for (let i = 0; i < num; i++) {
+            newBracket();
+        }
+    }
+}
+
+generateBtn.addEventListener('click', normalBracket);

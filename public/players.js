@@ -66,12 +66,11 @@ gamesColumn.appendChild(playerGames);
 removeColumn.appendChild(removeHeader);
 playerInfo.append(playersColumn, entriesColumn, handicapColumn, gamesColumn, removeColumn);
 
-let playerCount = 0;
+let playerCount = 1;
 let bowlerIds = [];
 
 //Add Player
 function newPlayer() {
-    playerCount++;
     const bowlerId = playerCount;
     bowlerIds.push(playerCount);
 
@@ -96,30 +95,29 @@ function newPlayer() {
     const playersGamesContainer = document.createElement('div');
     playersGamesContainer.id = 'container-' + playerCount;
     playersGamesContainer.classList.add('games-container');
-    playersGamesContainer.classList.add('player-info');
 
     const gameOne = document.createElement('input');
     gameOne.setAttribute('type', 'number');
     gameOne.id = 'gameone-' + playerCount;
-    gameOne.classList.add('game');
+    gameOne.classList.add('game', 'player-info');
     gameOne.style.width = '50px';
 
     const gameTwo = document.createElement('input');
     gameTwo.setAttribute('type', 'number');
     gameTwo.id = 'gametwo-' + playerCount;
-    gameTwo.classList.add('game');
+    gameTwo.classList.add('game', 'player-info');
     gameTwo.style.width = '50px';
 
     const gameThree = document.createElement('input');
     gameThree.setAttribute('type', 'number');
     gameThree.id = 'gamethree-' + playerCount;
-    gameThree.classList.add('game');
+    gameThree.classList.add('game', 'player-info');
     gameThree.style.width = '50px';
 
     const removeBtn = document.createElement('button');
     removeBtn.id = 'remove-' + playerCount;
     removeBtn.classList.add('remove-button');
-    removeBtn.textContent = 'x';
+    removeBtn.textContent = 'X';
     removeBtn.addEventListener('click', function() {
         const arrayIndex = bowlerIds.indexOf(bowlerId);
         bowlerIds.splice(arrayIndex, 1);
@@ -136,42 +134,28 @@ function newPlayer() {
     handicapColumn.append(handicap);
     gamesColumn.appendChild(playersGamesContainer);
     removeColumn.appendChild(removeBtn);
+    console.log(bowlerIds);
+    playerCount++;
 }
 
 addBtn.addEventListener('click', newPlayer);
 
-const bowlerInfo = {}
+export let playerStats = [];
 
-//Creating the player object
-function playerObject(i) {
-    console.log(bowlerIds);
-    if (typeof i !== 'undefined') {
-        let bowler = new Object();
-        bowler = {
-            [i]: {
-                name: document.querySelector('#name-' + [i]).value,
-                entries: document.querySelector('#entries-' + [i]).value,
-                handicap: document.querySelector('#handicap-' + [i]).value,
-                gameOne: document.querySelector('#gameone-' + [i]).value,
-                gameTwo: document.querySelector('#gametwo-' + [i]).value,
-                gameThree: document.querySelector('#gamethree-' + [i]).value
-            }
-        }
-        document.querySelector('#remove-' + [i]).addEventListener('click', function() {
-            delete bowler.i
-    });
-
-    console.log(bowler);
-    }    
+function generateStats(p) {    
+    let newP = [document.getElementById('name-' + p).value, Number(document.getElementById('entries-' + p).value), Number(document.getElementById('handicap-' + p).value), Number(document.getElementById('gameone-' + p).value), Number(document.getElementById('gametwo-' + p).value), Number(document.getElementById('gamethree-' + p).value)];
+    playerStats.push(newP);
 }
 
 //Generate button to process player information
-const generateBtn = document.createElement('button');
+export const generateBtn = document.createElement('button');
 generateBtn.id = 'generate-button';
 generateBtn.textContent = 'Generate';
 generateBtn.addEventListener('click', function() {
-    bowlerIds.forEach(playerObject);
-});
+    playerStats = [];
+    bowlerIds.forEach(generateStats);
+    console.log(playerStats);
+})
 
 add.appendChild(addBtn);
 generate.appendChild(generateBtn);

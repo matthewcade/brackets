@@ -7,3 +7,5 @@ Current Features:
 + Add additional bowlers
 + Remove bowlers
 + Enter player names, entries, handicaps and scores
++ Generate Brackets
++ Minimize Brackets

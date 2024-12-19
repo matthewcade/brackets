@@ -23,6 +23,14 @@ function newBracket() {
     miniBtn.textContent = 'V';
     miniBtn.style.color = '#fff';
 
+    const bracketTitle = document.createElement('div');
+    bracketTitle.classList.add('bracket-title');
+    bracketTitle.textContent = 'Bracket ' + numberOfBrackets;
+
+    const titleSpace = document.createElement('div');
+    titleSpace.style.width = '21px';
+    titleSpace.style.height = '27px';
+
     let minimizeBracketId = 'bracket-' + numberOfBrackets;
     miniBtn.addEventListener('click', function() {
         if (document.getElementById(minimizeBracketId).style.display == 'flex') {
@@ -120,7 +128,7 @@ function newBracket() {
     }
     
     lineCount = 1;
-    minimize.appendChild(miniBtn);
+    minimize.append(miniBtn, bracketTitle, titleSpace);
     bracketContainer.append(quarterFinalsList, semiFinalsList, finalsList);
     brackets.append(minimize, bracketContainer);
 }

@@ -59,12 +59,12 @@ removeHeader.classList.add('header');
 removeHeader.textContent = 'x';
 removeHeader.style.color = '#000';
 
+removeColumn.appendChild(removeHeader);
 playersColumn.appendChild(playerNames);
 entriesColumn.appendChild(playerEntries);
 handicapColumn.appendChild(playerHandicaps);
 gamesColumn.appendChild(playerGames);
-removeColumn.appendChild(removeHeader);
-playerInfo.append(playersColumn, entriesColumn, handicapColumn, gamesColumn, removeColumn);
+playerInfo.append(removeColumn, playersColumn, entriesColumn, handicapColumn, gamesColumn);
 
 let playerCount = 1;
 let bowlerIds = [];
@@ -134,7 +134,6 @@ function newPlayer() {
     handicapColumn.append(handicap);
     gamesColumn.appendChild(playersGamesContainer);
     removeColumn.appendChild(removeBtn);
-    console.log(bowlerIds);
     playerCount++;
 }
 
@@ -154,7 +153,6 @@ generateBtn.textContent = 'Generate';
 generateBtn.addEventListener('click', function() {
     playerStats = [];
     bowlerIds.forEach(generateStats);
-    console.log(playerStats);
 })
 
 add.appendChild(addBtn);

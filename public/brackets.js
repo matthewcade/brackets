@@ -2,6 +2,7 @@ const brackets = document.querySelector('#brackets');
 import { generateBtn, playerStats } from './players.js';
 
 let numberOfBrackets = 0;
+let lineCount = 1;
 
 //Generates a new tournament bracket
 function newBracket() {
@@ -21,11 +22,15 @@ function newBracket() {
     miniBtn.style.border = '0';
     miniBtn.textContent = 'V';
     miniBtn.style.color = '#fff';
+
+    let minimizeBracketId = 'bracket-' + numberOfBrackets;
     miniBtn.addEventListener('click', function() {
-        if (document.getElementById('bracket-' + numberOfBrackets).style.display == 'flex') {
-            document.getElementById('bracket-' + numberOfBrackets).style.display = 'none';
+        if (document.getElementById(minimizeBracketId).style.display == 'flex') {
+            document.getElementById(minimizeBracketId).style.display = 'none';
+            minimize.style.marginBottom = '20px';
         } else {
-            document.getElementById('bracket-' + numberOfBrackets).style.display = 'flex';
+            document.getElementById(minimizeBracketId).style.display = 'flex';
+            minimize.style.marginBottom = '0';
         }
     })
 
@@ -38,18 +43,6 @@ function newBracket() {
     bracketContainer.style.padding = '0 15px 0 15px';
     bracketContainer.style.display = 'flex';
 
-    const quarterFinals = document.createElement('div');
-    quarterFinals.id = 'round-one-' + numberOfBrackets;
-    quarterFinals.classList.add('round');
-
-    const semiFinals = document.createElement('div');
-    semiFinals.id = 'round-two-' + numberOfBrackets;
-    semiFinals.classList.add('round');
-
-    const finals = document.createElement('div');
-    finals.id = 'round-three-' + numberOfBrackets;
-    finals.classList.add('round');
-
     const quarterFinalsList = document.createElement('ul');
     quarterFinalsList.id = 'round-one-ul-' + numberOfBrackets;
 
@@ -61,7 +54,7 @@ function newBracket() {
 
     for (let i = 0; i < 8; i++) {
         const line = document.createElement('li');
-        line.id = 'round-one-line-' + [i];
+        line.id = 'b' + numberOfBrackets + '-round-one-line-' + lineCount;
         line.classList.add('line', 'round-one-line');
         line.textContent = 'R1 player ' + [i] + ' (score)';
 
@@ -79,11 +72,16 @@ function newBracket() {
         }
 
         quarterFinalsList.appendChild(line);
+        lineCount++;
     }
 
+    lineCount = 1;
+
     for (let j = 0; j < 4; j++) {
+        let quarterLineCount = 1;
+        
         const line = document.createElement('li');
-        line.id = 'round-two-line-' + [j];
+        line.id = 'b' + numberOfBrackets + '-round-two-line-' + lineCount;
         line.classList.add('line', 'round-two-line');
         line.textContent = 'R2 player ' + [j] + ' (score)';
 
@@ -100,11 +98,14 @@ function newBracket() {
         }
 
         semiFinalsList.appendChild(line);
+        lineCount++;
     }
+
+    lineCount = 1;
 
     for (let k = 0; k < 2; k++) {
         const line = document.createElement('li');
-        line.id = 'round-three-line-' + [k];
+        line.id = 'b' + numberOfBrackets + '-round-three-line-' + lineCount;
         line.classList.add('line', 'round-three-line');
         line.textContent = 'R3 player ' + [k] + ' (score)';
 
@@ -115,8 +116,10 @@ function newBracket() {
         }
 
         finalsList.appendChild(line);
+        lineCount++;
     }
     
+    lineCount = 1;
     minimize.appendChild(miniBtn);
     bracketContainer.append(quarterFinalsList, semiFinalsList, finalsList);
     brackets.append(minimize, bracketContainer);
@@ -124,6 +127,7 @@ function newBracket() {
 
 //Generates brackets based on player count
 function normalBracket() {
+    brackets.innerHTML = '';
     let num = playerStats.length;
     num = num / 8;
     
@@ -134,4 +138,55 @@ function normalBracket() {
     }
 }
 
+//Assigns players to the brackets
+function assignPlayers() {
+    let bracketCount = numberOfBrackets + 1;
+    let playerEntryCounter = playerStats; //Tracks the number of entries each player has remaining
+    let remainingPlayers = playerStats; //Tracks players that have entries left
+    let newBracket = []; //Holds the players for the new bracket
+    let numOfEntries = 0; //Number of lines to account for
+    let remainingLines = lineCount;
+    let newLine = 1;
+
+    //Ran for the number of full brackets
+    for (let b = 1; b < bracketCount; b++) {
+        let chosen = [];
+
+        //Checks if less than 8 players in the game or if ghost bracket will be needed, currently runs alert
+        if (remainingPlayers.length < 8) {
+            alert('A minimum of 8 players must be listed');
+        } else {
+            for (let p = 0; p < 8; p++) {
+                let randomNum = Math.floor(Math.random() * remainingPlayers.length);
+
+                if (chosen.includes(randomNum)) {
+                    p--;
+                } else {
+                    chosen.push(randomNum);
+                    newBracket.push(remainingPlayers[randomNum]);
+                    document.getElementById('b' + b + '-round-one-line-' + newLine).textContent = `${remainingPlayers[randomNum][0]} (${remainingPlayers[randomNum][3]})`;
+                    document.getElementById('b' + b + '-round-one-line-' + newLine).setAttribute('data-bracket', b);
+                    document.getElementById('b' + b + '-round-one-line-' + newLine).setAttribute('data-player', remainingPlayers.indexOf(remainingPlayers[randomNum]));
+                    document.getElementById('b' + b + '-round-one-line-' + newLine).setAttribute('data-value', remainingPlayers[randomNum][3]);
+                    const lineData = document.getElementById('b' + b + '-round-one-line-' + newLine);
+                    console.log(lineData.dataset.player)
+
+                    document.querySelector(`#gameone-${randomNum + 1}`).addEventListener('input', function() {
+                        console.log(`Score Change: `);
+                        lineData.dataset.value = document.querySelector(`#gameone-${randomNum + 1}`).value;
+                    })
+            
+                    newLine++;
+                }
+            }
+            console.log(chosen);
+        }
+        newLine = 1;
+    }
+    numberOfBrackets = 0;
+    lineCount = 1;
+    console.log(newBracket);
+}
+
 generateBtn.addEventListener('click', normalBracket);
+generateBtn.addEventListener('click', assignPlayers);

@@ -9,3 +9,5 @@ Current Features:
 + Enter player names, entries, handicaps and scores
 + Generate Brackets
 + Minimize Brackets
++ Players randomized without duplicating
++ Inputs sending live game updates to relative player's line
